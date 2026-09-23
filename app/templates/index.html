@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DDLS Week 5 — Single-cell navigator</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="page-header">
+      <p class="eyebrow">PBMC single-cell RNA-seq</p>
+      <h1>DDLS Week 5 — Single-cell navigator</h1>
+      <p class="subtitle">Explore the existing two-dimensional UMAP embedding.</p>
+    </header>
+
+    <section class="content-grid" aria-label="Dataset navigator">
+      <article class="plot-card">
+        <div class="section-heading">
+          <div>
+            <h2>UMAP overview</h2>
+            <p class="muted">Each point represents one cell.</p>
+          </div>
+          <span id="loading-state" class="status">Loading data…</span>
+        </div>
+        <div id="error-state" class="error-message" role="alert" hidden></div>
+        <div id="umap-plot" class="plot" aria-label="UMAP scatter plot"></div>
+        <p class="caption">UMAP coordinates are embedding coordinates; they are not gene-expression axes.</p>
+      </article>
+
+      <aside class="info-card" aria-label="Dataset information">
+        <h2>Dataset information</h2>
+        <dl class="stats">
+          <div><dt>Cells</dt><dd id="cell-count">—</dd></div>
+          <div><dt>Genes</dt><dd id="gene-count">—</dd></div>
+          <div><dt>Current selection</dt><dd id="selection">none</dd></div>
+        </dl>
+        <p class="muted small">Use the plot controls to zoom and pan. Hover over a point to see its cell index and coordinates.</p>
+      </aside>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

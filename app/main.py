@@ -6,7 +6,8 @@ from typing import AsyncIterator
 
 import scanpy as sc
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 DATASET_PATH = Path(__file__).resolve().parent.parent / "data" / "pbmc3k.h5ad"
 
@@ -27,11 +28,13 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(title="DDLS Week 5 Single-Cell Navigator", lifespan=lifespan)
+TEMPLATE_PATH = Path(__file__).parent / "templates" / "index.html"
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 
 
-@app.get("/", response_class=PlainTextResponse)
-def root() -> str:
-    return "DDLS Week 5 single-cell navigator"
+@app.get("/", response_class=HTMLResponse)
+def root() -> FileResponse:
+    return FileResponse(TEMPLATE_PATH)
 
 
 @app.get("/api/health")
