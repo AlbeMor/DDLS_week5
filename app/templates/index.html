@@ -19,14 +19,37 @@
       <article class="plot-card">
         <div class="section-heading">
           <div>
-            <h2>UMAP overview</h2>
+            <h2 id="plot-title">UMAP overview</h2>
             <p class="muted">Each point represents one cell.</p>
           </div>
           <span id="loading-state" class="status">Loading data…</span>
         </div>
+        <div class="mode-controls">
+          <label for="mode-select">Visualization mode</label>
+          <select id="mode-select">
+            <option value="gene">Gene expression</option>
+            <option value="cluster">Cluster</option>
+          </select>
+        </div>
+        <form id="gene-form" class="gene-form">
+          <label for="gene-input">Color by gene expression</label>
+          <div class="gene-controls">
+            <div class="gene-picker">
+              <input id="gene-input" name="gene" type="text" placeholder="Search or enter a gene, e.g. CD3D" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="gene-suggestions">
+              <div id="gene-suggestions" class="gene-suggestions" role="listbox" hidden></div>
+            </div>
+            <button type="submit">Show expression</button>
+          </div>
+          <p id="gene-list-status" class="form-help">Loading gene list…</p>
+        </form>
         <div id="error-state" class="error-message" role="alert" hidden></div>
         <div id="umap-plot" class="plot" aria-label="UMAP scatter plot"></div>
         <p class="caption">UMAP coordinates are embedding coordinates; they are not gene-expression axes.</p>
+        <section id="cluster-controls" class="cluster-controls" hidden>
+          <label for="cluster-select">Cluster</label>
+          <select id="cluster-select" aria-label="Selected cluster"></select>
+          <p class="form-help">Cluster labels are dataset labels and do not imply biological identities.</p>
+        </section>
       </article>
 
       <aside class="info-card" aria-label="Dataset information">
@@ -36,8 +59,49 @@
           <div><dt>Genes</dt><dd id="gene-count">—</dd></div>
           <div><dt>Current selection</dt><dd id="selection">none</dd></div>
         </dl>
-        <p class="muted small">Use the plot controls to zoom and pan. Hover over a point to see its cell index and coordinates.</p>
+        <p class="muted small">Use the plot controls to zoom and pan. Hover over a point to see its cell index, coordinates, and expression value.</p>
+        <section id="cluster-summary" class="cluster-summary" hidden>
+          <h2>Selected cluster metrics</h2>
+          <dl class="stats">
+            <div><dt>Number of cells</dt><dd id="cluster-cell-count">—</dd></div>
+            <div><dt>Median genes/cell</dt><dd id="cluster-median-genes">—</dd></div>
+            <div><dt>Median total counts/cell</dt><dd id="cluster-median-counts">—</dd></div>
+            <div><dt>Median mitochondrial %</dt><dd id="cluster-median-mito">—</dd></div>
+          </dl>
+        </section>
       </aside>
+    </section>
+    <section id="cluster-analysis" class="analysis-section" hidden>
+      <h2>Cluster 6 diagnostic view</h2>
+      <p class="analysis-warning">Cluster 6 contains only 13 cells. Marker enrichment should be interpreted together with per-cell consistency, neighboring clusters, and known cell-type signatures.</p>
+      <div id="cluster-analysis-overview" class="analysis-overview"></div>
+      <h3>Cluster 6 cells on UMAP</h3>
+      <div id="cluster-analysis-umap" class="plot"></div>
+      <h3>Per-cell QC</h3>
+      <div id="cluster-cells-table" class="table-wrap"></div>
+      <h3>Cluster 6 enriched genes</h3>
+      <p class="muted small">Positive candidates require mean expression greater than other cells. Statistics use log-normalized <code>adata.X</code>; log2 fold change is log2((mean cluster + 1e-9) / (mean other cells + 1e-9)).</p>
+      <div id="cluster-markers-table" class="table-wrap"></div>
+      <h3>Cluster 6 depleted genes</h3>
+      <div id="cluster-depleted-table" class="table-wrap"></div>
+      <h3>Marker consistency across cluster 6 cells</h3>
+      <div id="cluster-marker-heatmap" class="plot"></div>
+      <h3>Cluster-level comparison</h3>
+      <p class="muted small">Mean log-normalized expression across clusters; this is an expression overview, not differential expression. Program scores are simple means across available genes and are not classifiers.</p>
+      <div id="cluster-comparison-table" class="table-wrap"></div>
+      <div id="cluster-comparison-heatmap" class="plot"></div>
+      <h3>Per-cell expression programs</h3>
+      <div id="cluster-program-heatmap" class="plot"></div>
+      <h3>Per-cell comparison-gene expression</h3>
+      <div id="cluster-comparison-cell-heatmap" class="plot"></div>
+    </section>
+    <section id="qc-section" class="qc-section" hidden>
+      <h2>QC distributions</h2>
+      <div class="qc-grid">
+        <div id="qc-genes" class="qc-plot"></div>
+        <div id="qc-counts" class="qc-plot"></div>
+        <div id="qc-mito" class="qc-plot"></div>
+      </div>
     </section>
   </main>
   <script src="/static/app.js"></script>

@@ -36,6 +36,20 @@ h2 { font-size: 1.15rem; }
 .section-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
 .section-heading p { margin: 5px 0 0; }
 .status { color: var(--accent); font-size: .9rem; white-space: nowrap; }
+.mode-controls, .cluster-controls { margin: 20px 0 4px; }
+.mode-controls label, .cluster-controls label { display: block; margin-bottom: 7px; font-size: .9rem; font-weight: 700; }
+.mode-controls select, .cluster-controls select { padding: 9px 10px; border: 1px solid #b9cbd3; border-radius: 6px; color: var(--ink); background: white; font: inherit; }
+.gene-form { margin: 20px 0 4px; padding: 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--accent-soft); }
+.gene-form label { display: block; margin-bottom: 7px; color: var(--ink); font-size: .9rem; font-weight: 700; }
+.gene-controls { display: flex; gap: 8px; }
+.gene-picker { position: relative; min-width: 0; flex: 1; }
+.gene-controls input { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid #b9cbd3; border-radius: 6px; color: var(--ink); background: white; font: inherit; }
+.gene-suggestions { position: absolute; z-index: 10; top: calc(100% + 3px); left: 0; right: 0; max-height: 250px; overflow-y: auto; border: 1px solid #b9cbd3; border-radius: 6px; background: white; box-shadow: 0 5px 14px rgba(30, 60, 75, .15); }
+.gene-suggestion { display: block; width: 100%; padding: 8px 10px; border: 0; color: var(--ink); background: white; cursor: pointer; font: inherit; text-align: left; }
+.gene-suggestion:hover, .gene-suggestion:focus { background: var(--accent-soft); outline: none; }
+.gene-controls button { padding: 9px 13px; border: 0; border-radius: 6px; color: white; background: var(--accent); cursor: pointer; font: inherit; font-weight: 700; }
+.gene-controls button:hover { background: #11566d; }
+.form-help { margin: 6px 0 0; color: var(--muted); font-size: .8rem; }
 .plot { width: 100%; min-height: 620px; margin-top: 8px; }
 .caption { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
 
@@ -46,10 +60,27 @@ dt { color: var(--muted); font-size: .85rem; }
 dd { margin: 3px 0 0; color: var(--accent); font-size: 1.5rem; font-weight: 700; }
 .small { font-size: .9rem; line-height: 1.5; }
 .error-message { margin-top: 14px; padding: 12px 14px; border: 1px solid #e4aaaa; border-radius: 8px; color: var(--error); background: var(--error-soft); }
+.cluster-summary { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+.cluster-summary .stats { margin-bottom: 0; }
+.qc-section, .analysis-section { margin-top: 24px; }
+.analysis-warning { padding: 10px 12px; border-left: 4px solid #d18b32; background: #fff7e8; color: #5c461d; }
+.analysis-overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 12px 0 18px; }
+.analysis-overview div { padding: 10px; border: 1px solid #dce6ea; border-radius: 6px; background: #fff; }
+.analysis-overview strong { display: block; font-size: 1.15rem; }
+.analysis-section h3 { margin-top: 22px; }
+.table-wrap { overflow-x: auto; background: #fff; }
+.analysis-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.analysis-table th, .analysis-table td { padding: 7px 8px; border-bottom: 1px solid #e4ecef; text-align: right; white-space: nowrap; }
+.analysis-table th { background: #edf4f6; }
+.analysis-table th:first-child, .analysis-table td:first-child { text-align: left; }
+.analysis-table th button { border: 0; background: transparent; font: inherit; font-weight: 700; cursor: pointer; }
+.qc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
+.qc-plot { min-height: 300px; background: white; border: 1px solid var(--line); border-radius: 10px; }
 
 @media (max-width: 800px) {
   .page-shell { padding: 22px 14px 36px; }
   .content-grid { grid-template-columns: 1fr; }
+  .qc-grid { grid-template-columns: 1fr; }
   .plot { min-height: 480px; }
 }
 
@@ -57,5 +88,9 @@ dd { margin: 3px 0 0; color: var(--accent); font-size: 1.5rem; font-weight: 700;
   .plot-card, .info-card { padding: 14px; }
   .section-heading { display: block; }
   .status { display: block; margin-top: 10px; }
+  .gene-controls { display: block; }
+  .gene-picker, .gene-controls button { width: 100%; }
+  .analysis-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gene-controls button { margin-top: 8px; }
   .plot { min-height: 390px; }
 }
