@@ -90,8 +90,16 @@
       <p class="muted small">Mean log-normalized expression across clusters; this is an expression overview, not differential expression. Program scores are simple means across available genes and are not classifiers.</p>
       <div id="cluster-comparison-table" class="table-wrap"></div>
       <div id="cluster-comparison-heatmap" class="plot"></div>
+      <h3>Expression program evidence</h3>
+      <p class="muted small">Program scores are transparent means of normalized expression across the available genes listed below; they are not cell-type classifiers.</p>
+      <div id="program-summary-table" class="table-wrap"></div>
+      <div id="program-gene-table" class="table-wrap"></div>
       <h3>Per-cell expression programs</h3>
+      <div id="cluster-program-table" class="table-wrap"></div>
       <div id="cluster-program-heatmap" class="plot"></div>
+      <h3>Individual-cell co-expression check</h3>
+      <p class="muted small">For each selected gene, normalized expression > 0 and raw count > 0 are shown independently. This is evidence for inspection, not an automatic doublet call.</p>
+      <div id="cluster-coexpression-table" class="table-wrap"></div>
       <h3>Per-cell comparison-gene expression</h3>
       <div id="cluster-comparison-cell-heatmap" class="plot"></div>
     </section>
