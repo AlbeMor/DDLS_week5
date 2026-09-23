@@ -1,0 +1,43 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python caches and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Data and temporary files
+*.h5ad
+*.h5
+*.hdf5
+*.tmp
+*.temp
+*.log
+*.zip
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Pi local metadata
+.pi/
