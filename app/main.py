@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import AsyncIterator
 
+import numpy as np
 import scanpy as sc
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse
@@ -45,6 +46,30 @@ def health(request: Request) -> dict[str, object]:
         "dataset_loaded": True,
         "n_cells": adata.n_obs,
         "n_genes": adata.n_vars,
+    }
+
+
+@app.get("/api/gene/{gene_name}")
+def gene_expression(gene_name: str, request: Request) -> dict[str, object]:
+    adata = request.app.state.adata
+    matches = np.flatnonzero(np.asarray(adata.var_names == gene_name))
+    if len(matches) == 0:
+        raise HTTPException(status_code=404, detail=f"Gene '{gene_name}' not found")
+    if len(matches) > 1:
+        raise HTTPException(status_code=409, detail=f"Gene '{gene_name}' has duplicate names")
+
+    expression = adata.X[:, int(matches[0])]
+    if hasattr(expression, "toarray"):
+        values = expression.toarray().ravel()
+    else:
+        values = np.asarray(expression).ravel()
+    if values.size != adata.n_obs:
+        raise HTTPException(status_code=503, detail="Gene expression length does not match the number of cells")
+
+    return {
+        "gene": str(adata.var_names[int(matches[0])]),
+        "n_cells": adata.n_obs,
+        "expression": [float(value) for value in values],
     }
 
 
